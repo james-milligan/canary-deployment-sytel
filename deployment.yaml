@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployed-app-v1
+  name: deploy-1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: deployed-app
+      app: deploy-1
   template:
     metadata:
       labels:
-        app: deployed-app
+        app: deploy-1
         version: v1
     spec:
       containers:
@@ -19,19 +19,31 @@ spec:
         ports:
             - containerPort: 8081
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploy-1-service
+spec:
+  type: ClusterIP
+  selector:
+    app: deploy-1
+  ports:
+    - port: 8081
+      targetPort: 8081
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployed-app-v1
+  name: deploy-2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: deployed-app
+      app: deploy-2
   template:
     metadata:
       labels:
-        app: deployed-app
+        app: deploy-2
         version: v1
     spec:
       containers:
@@ -39,3 +51,15 @@ spec:
         name: deployment-2
         ports:
             - containerPort: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploy-2-service
+spec:
+  type: ClusterIP
+  selector:
+    app: deploy-2
+  ports:
+    - port: 8081
+      targetPort: 8081

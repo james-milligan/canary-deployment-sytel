@@ -1,0 +1,36 @@
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: deploy-1
+  labels:
+    app: deploy-1
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    http:
+      paths:
+      - backend:
+          serviceName: deploy-1-service
+          servicePort: 8081
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: deploy-2-canary
+  labels:
+    app: deploy-2
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+
+    # Enable canary and send 30% of traffic to version 2
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "30"
+spec:
+  rules:
+    http:
+      paths:
+      - backend:
+          serviceName: deploy-2-service
+          servicePort: 8081
