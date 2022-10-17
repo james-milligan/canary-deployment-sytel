@@ -9,11 +9,11 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-    http:
-      paths:
-      - backend:
-          serviceName: deploy-1-service
-          servicePort: 8081
+    - http:
+        paths:
+        - backend:
+            serviceName: deploy-1-service
+            servicePort: 8081
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -29,8 +29,8 @@ metadata:
     nginx.ingress.kubernetes.io/canary-weight: "30"
 spec:
   rules:
-    http:
-      paths:
-      - backend:
-          serviceName: deploy-2-service
-          servicePort: 8081
+    - http:
+        paths:
+        - backend:
+            serviceName: deploy-2-service
+            servicePort: 8081
